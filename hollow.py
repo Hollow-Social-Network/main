@@ -10,7 +10,7 @@ passwords = apple[0]
 messages = apple[1]
 # with open("users.dat", "rb") as f :
 #     users =  #pickle.load(f)
-bot = telebot.TeleBot('1836330544:AAG-b8FJi90cPQ0eOXRKv3c7juaQw-HSvNE')
+bot = telebot.TeleBot('Your Telegram Bot Token')
 print(len(passwords))
 @bot.message_handler(content_types=['text'])
 def get_text_messages(message):
@@ -21,7 +21,7 @@ def get_text_messages(message):
     if message.from_user.username not in messages.keys():
         messages[message.from_user.username] = []
     if message.text == "/start":
-        bot.send_message(message.from_user.id, 'Привет! Это социальная сеть Hollow! Напишите: /write имя_пользователя сообщение чтобы написать сообщение, /my_username чтобы узнать свой адрес для отправления сообщений и /look для прочитывания сообщений.')
+        bot.send_message(message.from_user.id, 'Hey! This is the social network Hollow! Write: "/write username message" to write a message, /my_username to find out your address to send messages and /look to read messages.')
     if "/write" in message.text :
         while True :
             try :
@@ -31,22 +31,24 @@ def get_text_messages(message):
                     imac = str(datetime.datetime.now(offset))[:16]
                     messages[message.text.split()[1]].append([login, msg, imac])
                     
-                    bot.send_message(message.from_user.id, 'Сообщение отправлено!')
+                    bot.send_message(message.from_user.id, 'Message is send!')
                     with open("users.dat", "wb") as qw :
                         pickle.dump([passwords, messages], qw)
                     break
                 else :
-                    bot.send_message(message.from_user.id, 'Этого пользователя не существует!')
+                    bot.send_message(message.from_user.id, 'This user does not exist!')
                     break
             except :
-                bot.send_message(message.from_user.id, 'Используйте синтаксис! /write имя_пользователя сообщение')
+                bot.send_message(message.from_user.id, 'Use syntax! /write username message')
                 break
-    if message.text == "/look" :
+    elif message.text == "/look" :
         for i in list(messages.items()) :
             if i[0] == login :
                 for j in i[1] :
-                    bot.send_message(message.from_user.id, f'''{j[0]} написал: {j[1]}     
-                    Дата и время отправки: {j[2]}''')
-    if message.text == "/my_username" :
+                    bot.send_message(message.from_user.id, f'''{j[0]} wrote: {j[1]}     
+                    Date and Time: {j[2]}''')
+    elif message.text == "/my_username" :
         bot.send_message(message.from_user.id, message.from_user.username)
+    else :
+        bot.send_message(message.from_user.id, "I don't know this command")
 bot.polling(none_stop=True, interval=1)
