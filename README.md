@@ -10,3 +10,7 @@ Hey! I'm 12 years Russian programmer, a I wrote a social network. It's name is H
 
 # Warnings
 Required to create Telegram username, else it wouldn't work.
+
+
+# Test
+Use t.me/Hollow_Social_Network_Bot
